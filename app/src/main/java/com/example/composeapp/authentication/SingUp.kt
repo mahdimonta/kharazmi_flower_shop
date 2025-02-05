@@ -164,12 +164,7 @@ class SingUp : ComponentActivity() {
                         )
                     )
                     var isPasswordVisible by remember { mutableStateOf(false) }
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 30.dp),
-                        horizontalAlignment = Alignment.End
-                    ) {
+
                         CustomTextField(
                             32,
                             label = stringResource(id = R.string.user_name),
@@ -202,7 +197,7 @@ class SingUp : ComponentActivity() {
 
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(top = 40.dp),
+                                .padding(top = 60.dp),
                             shape = RoundedCornerShape(5.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF18AF7C)),
                             onClick = {
@@ -220,7 +215,7 @@ class SingUp : ComponentActivity() {
                         }
 
 
-                    }
+
 
 
                 }

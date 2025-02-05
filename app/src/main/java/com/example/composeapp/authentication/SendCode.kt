@@ -139,7 +139,7 @@ class SendCode : ComponentActivity() {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = 80.dp, end = 30.dp, start = 30.dp)
+                        .padding(40.dp)
                 ) {
 
                     Text(
@@ -160,7 +160,7 @@ class SendCode : ComponentActivity() {
                             color = Color.Black,
                         )
                     )
-                    Spacer(modifier = Modifier.height(100.dp))
+                    Spacer(modifier = Modifier.height(80.dp))
                     val code = TextFieldCustom()
 
                     Button(

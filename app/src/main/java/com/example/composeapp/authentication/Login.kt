@@ -47,7 +47,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
@@ -75,17 +74,15 @@ class Login : ComponentActivity() {
     private val code = mutableStateOf(TextFieldValue())
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
 
-                LoginCode()
+            LoginCode()
 
         }
     }
-
 
 
     @Composable
@@ -112,7 +109,6 @@ class Login : ComponentActivity() {
                 Image(
                     modifier = Modifier.fillMaxSize(),
                     painter = painterResource(R.drawable.gradient),
-                    colorFilter = ColorFilter.tint(Color(0xFF22C528)),
                     contentScale = ContentScale.FillBounds,
                     contentDescription = null
                 )
@@ -137,7 +133,7 @@ class Login : ComponentActivity() {
                         tint = Color.White,
                     )
                     Text(
-                        text = stringResource(id= R.string.back),
+                        text = stringResource(id = R.string.back),
                         color = Color.White,
                         fontSize = 20.sp
                     )
@@ -184,103 +180,98 @@ class Login : ComponentActivity() {
                         )
                     )
                     var isPasswordVisible by remember { mutableStateOf(false) }
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 60.dp),
-                        horizontalAlignment = Alignment.End
-                    ) {
-                        CustomTextField(
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(top = 20.dp)
-                                .clip(RoundedCornerShape(5.dp)),
-                            32,
-                            label = stringResource(id = R.string.phone_num),
-                            phoneOrEmail,
-                            KeyboardOptions(keyboardType = KeyboardType.Number)
-                        )
-                        CustomTextField(
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(top = 20.dp)
-                                .clip(RoundedCornerShape(5.dp)),
-                            28,
-                            label = stringResource(id = R.string.Password),
-                            password,
-                            KeyboardOptions(keyboardType = KeyboardType.Password),
-                            visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                            trailingIcon = {
-                                IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
-                                    Icon(
-                                        imageVector = if (isPasswordVisible) Icons.Default.Check else Icons.Default.CheckCircle,
-                                        contentDescription = if (isPasswordVisible) "مخفی کردن رمز" else "نمایش رمز"
-                                    )
-                                }
-                            })
 
-                        Button(
-                            {
-                            },
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-                            shape = RoundedCornerShape(0.dp),
-                            contentPadding = PaddingValues(0.dp)
-                        ) {
+                    Spacer(modifier = Modifier.height(50.dp))
 
-                            Text(
-                                text = stringResource(id = R.string.forget),
-                                fontSize = 14.sp,
-                                color = Color(0xFF273893),
-                                modifier = Modifier.padding(top = 10.dp)
-                            )
-                        }
-                        Button(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 40.dp),
-                            shape = RoundedCornerShape(5.dp),
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF22C528)),
-                            onClick = {
-                               showDialog = true
+                    CustomTextField(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 20.dp)
+                            .clip(RoundedCornerShape(5.dp)),
+                        32,
+                        label = stringResource(id = R.string.phone_num),
+                        phoneOrEmail,
+                        KeyboardOptions(keyboardType = KeyboardType.Number)
+                    )
+                    CustomTextField(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 20.dp)
+                            .clip(RoundedCornerShape(5.dp)),
+                        28,
+                        label = stringResource(id = R.string.Password),
+                        password,
+                        KeyboardOptions(keyboardType = KeyboardType.Password),
+                        visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        trailingIcon = {
+                            IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
+                                Icon(
+                                    imageVector = if (isPasswordVisible) Icons.Default.Check else Icons.Default.CheckCircle,
+                                    contentDescription = if (isPasswordVisible) "مخفی کردن رمز" else "نمایش رمز"
+                                )
                             }
-                        ) {
-                            Text(
-                                text =  stringResource(id = R.string.sign_in),
-                                modifier = Modifier
-                                    .padding(6.dp),
-                                fontSize = 20.sp
+                        })
 
-                            )
+                    Button(
+                        {
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                        shape = RoundedCornerShape(0.dp),
+                        contentPadding = PaddingValues(0.dp)
+                    ) {
+
+                        Text(
+                            text = stringResource(id = R.string.forget),
+                            fontSize = 14.sp,
+                            color = Color(0xFF273893),
+                            modifier = Modifier.padding(top = 10.dp)
+                        )
+                    }
+                    Button(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 40.dp),
+                        shape = RoundedCornerShape(5.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF18AF7C)),
+                        onClick = {
+                            showDialog = true
                         }
-
-                        Row(
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.sign_in),
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(14.dp, bottom = 20.dp),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.have_not_account),
+                                .padding(6.dp),
+                            fontSize = 20.sp
+
+                        )
+                    }
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(14.dp, bottom = 20.dp, top = 15.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.have_not_account),
+                            fontSize = 12.sp
+                        )
+                        ClickableText(
+                            AnnotatedString(stringResource(id = R.string.sign_up)),
+                            modifier = Modifier.padding(top = 3.dp, start = 3.dp),
+                            style = TextStyle(
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF3F51B5),
                                 fontSize = 12.sp
                             )
-                            ClickableText(
-                                AnnotatedString(stringResource(id = R.string.sign_up)),
-                                modifier = Modifier.padding(top = 3.dp, start = 3.dp),
-                                style = TextStyle(
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color(0xFF3F51B5),
-                                    fontSize = 12.sp
-                                )
-                            ) { }
-                        }
-
-
+                        ) { }
                     }
 
 
                 }
-            }
 
+
+            }
 
 
         }
@@ -323,7 +314,11 @@ class Login : ComponentActivity() {
                         )
 
                         Spacer(modifier = Modifier.height(5.dp))
-                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Absolute.Center, verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Absolute.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Button(
                                 modifier = Modifier.padding(end = 8.dp, top = 23.dp),
                                 shape = RoundedCornerShape(0.dp),
@@ -340,16 +335,16 @@ class Login : ComponentActivity() {
                                     fontSize = 13.sp
                                 )
                             }
-                           CustomTextField(
-                               Modifier
-                                   .fillMaxWidth()
-                                   .padding(top = 20.dp)
-                                   .clip(RoundedCornerShape(5.dp)),
-                               6,
-                               "code",
-                               code,
-                               KeyboardOptions(keyboardType = KeyboardType.Number)
-                           )
+                            CustomTextField(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 20.dp)
+                                    .clip(RoundedCornerShape(5.dp)),
+                                6,
+                                "code",
+                                code,
+                                KeyboardOptions(keyboardType = KeyboardType.Number)
+                            )
 
                         }
                         Spacer(modifier = Modifier.height(30.dp))
@@ -357,10 +352,10 @@ class Login : ComponentActivity() {
                         Button(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(5.dp),
-                            colors = ButtonDefaults.buttonColors(Color(0xFF22C528)),
+                            colors = ButtonDefaults.buttonColors(Color(0xFF18AF7C)),
                             contentPadding = PaddingValues(0.dp),
                             onClick = {
-                                startActivity(Intent(this@Login,SingUp::class.java))
+                                startActivity(Intent(this@Login, SingUp::class.java))
                             }
                         ) {
                             Text(
@@ -375,8 +370,6 @@ class Login : ComponentActivity() {
     }
 
 
-
-
     @Composable
     fun CustomTextField(
         modifier: Modifier,
@@ -387,6 +380,7 @@ class Login : ComponentActivity() {
         trailingIcon: @Composable (() -> Unit)? = null,
         visualTransformation: VisualTransformation = VisualTransformation.None
     ) {
+
         var text by remember { value }
         OutlinedTextField(
             value = text,
@@ -415,7 +409,7 @@ class Login : ComponentActivity() {
     )
     @Composable
     fun GreetingPreview() {
-            LoginCode()
+        LoginCode()
 
 
     }

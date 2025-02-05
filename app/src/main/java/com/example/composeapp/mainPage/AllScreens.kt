@@ -73,8 +73,8 @@ fun BottomNavigation(navController: NavController) {
     AnimatedNavigationBar(
         modifier = Modifier.padding(bottom = 60.dp, start = 20.dp, end = 20.dp),
         selectedIndex = state,
-        ballColor = Color(0xFF05690B),
-        barColor = Color(0xFF22C528),
+        ballColor = Color(0xFF0B5B3F),
+        barColor = Color(0xFF18AF7C),
         cornerRadius = shapeCornerRadius(20.dp)
 
     ) {
@@ -96,8 +96,8 @@ fun BottomNavigation(navController: NavController) {
                     modifier = Modifier.size(25.dp),
                     painter = if (navigationItem.route == currentRoute) navigationItem.selectedIcon else navigationItem.unSelectedIcon,
                     contentDescription = navigationItem.title,
-                    tint = if (navigationItem.route == currentRoute) Color(0xFF05690B)
-                    else Color(0xFFA2E3A5)
+                    tint = if (navigationItem.route == currentRoute) Color(0xFF0B5B3F)
+                    else Color(0xFF85E5B9)
                 )
 
             }
