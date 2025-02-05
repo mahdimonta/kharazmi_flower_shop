@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">ComposeApp</string>
+    <string name="back">back</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_up_explain">sign up to flower shop app. please fill all the inputs carefully</string>
+    <string name="user_name">User Name</string>
+    <string name="phone_num">Phone Number</string>
+    <string name="Password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_in_explain">sign into flower shop app. please fill all the inputs carefully</string>
+    <string name="forget">Forget password?</string>
+    <string name="have_not_account">Don\'t have an account?</string>
+    <string name="title_activity_bottom_navigation">naivigation</string>
+    <string name="title_activity_send_code">sent code</string>
+    <string name="title_activity_sign_up">sign up</string>
+    <string name="title_activity_sign_in">login</string>
+
+
+</resources>
