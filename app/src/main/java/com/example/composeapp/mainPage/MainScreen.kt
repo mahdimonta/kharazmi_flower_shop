@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -30,12 +31,14 @@ class MainScreen : ComponentActivity() {
         val navController = rememberNavController()
 
         Scaffold(
+            modifier = Modifier.systemBarsPadding(),
             bottomBar = { BottomNavigation(navController) }
         ) {
             NavHost(
                 modifier = Modifier.padding(it),
                 navController = navController,
-                startDestination = "Home"
+                startDestination = "Home",
+
             ) {
                 composable("Profile") { ProfileScreen() }
                 composable("Shop") { ShopScreen() }

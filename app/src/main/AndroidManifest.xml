@@ -14,9 +14,15 @@
         tools:targetApi="31">
         <activity
             android:name=".mainPage.MainScreen"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_bottom_navigation"
-            android:theme="@style/Theme.ComposeApp"/>
+            android:theme="@style/Theme.ComposeApp">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".authentication.SendCode"
@@ -30,15 +36,10 @@
             android:theme="@style/Theme.ComposeApp" />
         <activity
             android:name=".authentication.Login"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_sign_in"
-            android:theme="@style/Theme.ComposeApp" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:theme="@style/Theme.ComposeApp" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
