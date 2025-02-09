@@ -39,6 +39,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -150,7 +152,7 @@ fun HomeScreen() {
     var active by remember { mutableStateOf(false) }
     var text by remember { mutableStateOf("") }
 
-    val widthFraction by animateFloatAsState(if (active) 1f else 0.2f)
+    val widthFraction by animateFloatAsState(if (active) 1f else 0.195f)
 
 
     Scaffold(
@@ -171,8 +173,8 @@ fun HomeScreen() {
                 {
                     Card(
                         modifier = Modifier
-                            .fillMaxWidth(0.15f)
-                            .padding(top = 10.dp, start = 10.dp),
+                            .fillMaxWidth(0.183f)
+                            .padding(top = 10.dp, start = 20.dp,end = 8.dp),
                         elevation = CardDefaults.cardElevation(3.dp),
                         shape = CircleShape,
                         colors = CardDefaults.cardColors(Color.White)
@@ -191,7 +193,7 @@ fun HomeScreen() {
                     Card(
                         modifier = Modifier
                             .fillMaxWidth(widthFraction)
-                            .padding(top = 10.dp, end = 10.dp)
+                            .padding(top = 10.dp, end = 20.dp)
                             .clickable {
                                 active = true
                             },
@@ -253,4 +255,15 @@ fun DiscountScreen() {
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Text("Offer", fontSize = 24.sp)
     }
+}
+
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = Devices.PIXEL_7_PRO
+)
+@Composable
+fun GreetingPreview() {
+
+    HomeScreen()
 }
