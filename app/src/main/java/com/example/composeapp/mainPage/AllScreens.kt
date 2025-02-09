@@ -1,31 +1,31 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
 
 package com.example.composeapp.mainPage
 
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBar
-import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -150,6 +150,8 @@ fun HomeScreen() {
     var active by remember { mutableStateOf(false) }
     var text by remember { mutableStateOf("") }
 
+    val widthFraction by animateFloatAsState(if (active) 1f else 0.2f)
+
 
     Scaffold(
         modifier = Modifier
@@ -157,64 +159,87 @@ fun HomeScreen() {
             .pointerInput(Unit) {
                 detectTapGestures(onTap = {
                     focusManager.clearFocus()
-                    active=false
+                    active = false
                 })
             },
         topBar = {
 
-
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Card(
-                    modifier = Modifier.size(50.dp).padding(start = 10.dp),
-                    elevation = CardDefaults.cardElevation(10.dp),
-                    shape = CircleShape
-                ) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center) {
-                        Icon(imageVector = Icons.Default.Notifications, contentDescription = "Notification")
-                    }
-                }
-                SearchBar(
-                    shape = SearchBarDefaults.fullScreenShape,
-                    colors = SearchBarDefaults.colors(Color.Gray),
-                    modifier = Modifier.fillMaxWidth(),
-                    query = text,
-                    onQueryChange = { text = it },
-                    onSearch = { active = false },
-                    onActiveChange = { active = it },
-                    active = active,
-                    trailingIcon ={
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = "search"
-                        )
-                    },
-                    leadingIcon =  {
-                        if (active) {
+                Row(
+                    modifier = Modifier.fillMaxWidth().height(56.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                )
+                {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth(0.15f)
+                            .padding(top = 10.dp, start = 10.dp),
+                        elevation = CardDefaults.cardElevation(3.dp),
+                        shape = CircleShape,
+                        colors = CardDefaults.cardColors(Color.White)
+                    ) {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
                             Icon(
-                                modifier = Modifier.clickable {
-                                    if (text.isNotEmpty()) {
-                                        text = ""
-                                    } else {
-                                        active = false
-                                    }
-                                },
-                                imageVector = Icons.Default.Close,
-                                contentDescription = "close"
+                                imageVector = Icons.Default.Notifications,
+                                contentDescription = "Notification"
                             )
                         }
                     }
-                ) {
 
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth(widthFraction)
+                            .padding(top = 10.dp, end = 10.dp)
+                            .clickable {
+                                active = true
+                            },
+                        elevation = CardDefaults.cardElevation(3.dp),
+                        shape = if(active) CardDefaults.shape else CircleShape,
+                        colors = CardDefaults.cardColors(Color.White)
+                    ) {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+
+                            if (active){
+
+                                OutlinedTextField(
+                                    value = text,
+                                    onValueChange = { text = it },
+                                    modifier = Modifier
+                                        .padding(horizontal = 16.dp) // فاصله درون فیلد
+                                        .fillMaxWidth(),
+                                    singleLine = true
+                                )
+
+
+
+                            }else{
+                                Icon(
+                                    imageVector = Icons.Default.Search,
+                                    contentDescription = "Notification"
+                                )
+                            }
+
+                        }
+                    }
                 }
-            }
-        }
-    ) {
-        it.toString()
 
+
+
+
+        }
+    ){
+        it.toString()
     }
+
+
+
 }
+
 
 @Composable
 fun CategoryScreen() {
