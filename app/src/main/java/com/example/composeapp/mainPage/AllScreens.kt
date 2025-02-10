@@ -1,4 +1,3 @@
-
 package com.example.composeapp.mainPage
 
 import androidx.compose.animation.core.animateFloatAsState
@@ -15,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
@@ -162,78 +162,89 @@ fun HomeScreen() {
             },
         topBar = {
 
-                Row(
-                    modifier = Modifier.fillMaxWidth().height(56.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                )
-                {
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth(0.183f)
-                            .padding(top = 10.dp, start = 20.dp,end = 8.dp),
-                        elevation = CardDefaults.cardElevation(3.dp),
-                        shape = CircleShape,
-                        colors = CardDefaults.cardColors(Color.White)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            )
+            {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth(0.183f)
+                        .padding(top = 10.dp, start = 20.dp, end = 8.dp),
+                    elevation = CardDefaults.cardElevation(3.dp),
+                    shape = CircleShape,
+                    colors = CardDefaults.cardColors(Color.White)
+                ) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Notifications,
-                                contentDescription = "Notification"
-                            )
-                        }
-                    }
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth(widthFraction)
-                            .padding(top = 10.dp, end = 20.dp)
-                            .clickable {
-                                active = true
-                            },
-                        elevation = CardDefaults.cardElevation(3.dp),
-                        shape = if(active) CardDefaults.shape else CircleShape,
-                        colors = CardDefaults.cardColors(Color.White)
-                    ) {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-
-                            if (active){
-
-                                OutlinedTextField(
-                                    value = text,
-                                    onValueChange = { text = it },
-                                    modifier = Modifier
-                                        .padding(horizontal = 16.dp) // فاصله درون فیلد
-                                        .fillMaxWidth(),
-                                    singleLine = true
-                                )
-
-
-
-                            }else{
-                                Icon(
-                                    imageVector = Icons.Default.Search,
-                                    contentDescription = "Notification"
-                                )
-                            }
-
-                        }
+                        Icon(
+                            imageVector = Icons.Default.Notifications,
+                            contentDescription = "Notification"
+                        )
                     }
                 }
 
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth(widthFraction)
+                        .padding(top = 10.dp, end = 20.dp)
+                        .clickable {
+                            active = true
+                        },
+                    elevation = CardDefaults.cardElevation(3.dp),
+                    shape = if (active) CardDefaults.shape else CircleShape,
+                    colors = CardDefaults.cardColors(Color.White)
+                ) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
 
+                        if (active) {
+
+                            OutlinedTextField(
+                                value = text,
+                                onValueChange = { text = it },
+                                modifier = Modifier
+                                    .padding(horizontal = 16.dp) // فاصله درون فیلد
+                                    .fillMaxWidth(),
+                                singleLine = true,
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Default.Search,
+                                        contentDescription = "Search TextField"
+                                    )
+                                },
+                                trailingIcon = {
+                                    Icon(
+                                        modifier = Modifier.clickable { if(text.isNotEmpty()) text="" else active = false },
+                                        imageVector = Icons.Default.Close,
+                                        contentDescription = "Close TextField"
+                                    )
+                                }
+                            )
+
+
+                        } else {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = "Notification"
+                            )
+                        }
+
+                    }
+                }
+            }
 
 
         }
-    ){
+    ) {
         it.toString()
     }
-
 
 
 }
@@ -259,7 +270,7 @@ fun DiscountScreen() {
     device = Devices.PIXEL_7_PRO
 )
 @Composable
-fun GreetingPreview() {
+fun AllScreenPRE() {
 
     HomeScreen()
 }
