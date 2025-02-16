@@ -1,4 +1,4 @@
-package com.example.composeapp.mainPage
+package com.example.composeapp.dataClasses
 
 import androidx.compose.ui.graphics.painter.Painter
 

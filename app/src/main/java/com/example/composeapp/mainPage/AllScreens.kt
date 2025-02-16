@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.composeapp.R
+import com.example.composeapp.dataClasses.NavigationItem
 import com.exyte.animatednavbar.AnimatedNavigationBar
 import com.exyte.animatednavbar.animation.indendshape.shapeCornerRadius
 import com.exyte.animatednavbar.utils.noRippleClickable
@@ -89,7 +90,7 @@ fun BottomNavigation(navController: NavController) {
 
     AnimatedNavigationBar(
         modifier = Modifier
-            .padding(start = 20.dp, end = 20.dp),
+            .padding(start = 20.dp, end = 20.dp , bottom = 10.dp),
         selectedIndex = state,
         ballColor = Color(0xFF0B5B3F),
         barColor = Color(0xFF18AF7C),
@@ -211,7 +212,7 @@ fun HomeScreen() {
                                 onValueChange = { text = it },
                                 modifier = Modifier
                                     .padding(horizontal = 16.dp) // فاصله درون فیلد
-                                    .fillMaxWidth(),
+                                    .fillMaxSize(),
                                 singleLine = true,
                                 leadingIcon = {
                                     Icon(
@@ -244,6 +245,7 @@ fun HomeScreen() {
         }
     ) {
         it.toString()
+        MainHomeListItem("")
     }
 
 

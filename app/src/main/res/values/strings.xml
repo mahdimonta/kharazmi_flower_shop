@@ -14,6 +14,7 @@
     <string name="title_activity_send_code">sent code</string>
     <string name="title_activity_sign_up">sign up</string>
     <string name="title_activity_sign_in">login</string>
+    <string name="more">more</string>
 
 
 </resources>
