@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -23,7 +25,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,24 +35,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composeapp.R
+import com.example.composeapp.dataClasses.dataModel.Product
 
 @Composable
-fun MainHomeListItem(categoryName:String) {
+fun MainHomeListItem(categoryName: String) {
 
     Column(
         modifier = Modifier
             .padding(top = 80.dp)
             .fillMaxWidth()
             .height(260.dp)
-            .background(Color.Gray),
 
         )
     {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(30.dp)
-                .background(Color.Yellow),
+                .height(30.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
 
@@ -83,36 +83,112 @@ fun MainHomeListItem(categoryName:String) {
                 fontWeight = FontWeight.Bold
             )
         }
+        val list = listOf(
+            Product(
+                id = 1,
+                name="gol",
+                description="ye gol",
+                price="1'000'000",
+                stock=11,
+                category="gols",
+                imageUrls= listOf(""),
+                rating=5.0,
+                availability="mojod"
+            ),
+            Product(
+                id = 1,
+                name="gol",
+                description="ye gol",
+                price="1'000'000",
+                stock=11,
+                category="gols",
+                imageUrls= listOf(""),
+                rating=5.0,
+                availability="mojod"
+            ),
+            Product(
+                id = 1,
+                name="gol",
+                description="ye gol",
+                price="1'000'000",
+                stock=11,
+                category="gols",
+                imageUrls= listOf(""),
+                rating=5.0,
+                availability="mojod"
+            )
 
-        ProductListItem("name","price",0,"availability")
+
+        )
+        LazyRow(
+            modifier = Modifier.fillMaxWidth().padding(start = 10.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(list){item: Product ->
+                ProductListItem(item)
+            }
+            items(1){
+                ProductListItem(defaultMode = true)
+            }
+
+        }
+
+
     }
+
 }
 
 @Composable
-fun ProductListItem(name:String, price:String, image:Int, availability: String){
+fun ProductListItem(
+    product: Product? = null,
+    defaultMode: Boolean = false
+) {
 
     Card(
         shape = RoundedCornerShape(20.dp),
         elevation = CardDefaults.cardElevation(5.dp),
-        modifier = Modifier.background(Color.White).fillMaxHeight().width(150.dp).padding(top = 10.dp, end = 10.dp, start = 10.dp)
+        modifier = Modifier
+            .background(Color.White)
+            .fillMaxHeight()
+            .width(200.dp)
+            .padding(top = 10.dp, end = 20.dp, start = 10.dp)
     ) {
+        if (defaultMode) {
 
-       Column(
-           modifier = Modifier.fillMaxSize()
-       ) {
-            Image(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.55f)
-                    .padding(top = 10.dp, end = 5.dp, start = 5.dp)
-                    .clip(RoundedCornerShape(20.dp))
-                    .background(color = Color.Gray),
-                painter = painterResource(id =  image),
-                contentDescription = name,
-                contentScale = ContentScale.FillBounds
-            )
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Image(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(10.dp)
+                        .clip(RoundedCornerShape(20.dp)),
+                    painter = painterResource(id = R.drawable.show_more),
+                    contentDescription = "More",
+                    contentScale = ContentScale.Inside
 
-       }
+                )
+
+            }
+        } else {
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Image(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.6f)
+                        .padding(top = 10.dp, end = 5.dp, start = 5.dp)
+                        .clip(RoundedCornerShape(20.dp)),
+                    painter = painterResource(id = R.drawable.show_more),
+                    contentDescription = product?.name,
+                    contentScale = ContentScale.Inside
+
+                )
+
+            }
+        }
+
 
     }
 }
@@ -125,5 +201,5 @@ fun ProductListItem(name:String, price:String, image:Int, availability: String){
 )
 @Composable
 fun ListPre() {
-    MainHomeListItem("efefefe")
+    MainHomeListItem("hello")
 }
