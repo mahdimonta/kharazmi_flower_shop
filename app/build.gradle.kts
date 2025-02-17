@@ -64,5 +64,10 @@ dependencies {
     implementation("com.exyte:animated-navigation-bar:1.0.0")
     //navController
     implementation (libs.androidx.navigation.compose)
+    //Accompanist Pager
+
+    implementation  (libs.google.accompanist.pager)
+    implementation (libs.accompanist.pager.indicators)
+
 
 }
