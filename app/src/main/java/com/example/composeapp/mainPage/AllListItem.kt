@@ -3,6 +3,7 @@ package com.example.composeapp.mainPage
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +28,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,7 +45,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composeapp.R
 import com.example.composeapp.dataClasses.dataModel.Product
-import com.google.accompanist.pager.ExperimentalPagerApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -52,7 +53,6 @@ fun MainHomeListItem(categoryName: String) {
 
     Column(
         modifier = Modifier
-            .padding(top = 80.dp)
             .fillMaxWidth()
             .height(260.dp)
 
@@ -70,7 +70,10 @@ fun MainHomeListItem(categoryName: String) {
             Row(
                 modifier = Modifier
                     .padding(5.dp, top = 8.dp)
-                    .clickable { },
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    )  { },
                 verticalAlignment = Alignment.CenterVertically,
 
                 ) {
@@ -78,11 +81,11 @@ fun MainHomeListItem(categoryName: String) {
                     modifier = Modifier.size(14.dp),
                     painter = painterResource(R.drawable.arrow_back),
                     contentDescription = null,
-                    tint = Color(0xFF303F88)
+                    tint = Color(0xFF0B5B3F)
                 )
                 Text(
                     text = stringResource(R.string.more),
-                    color = Color(0xFF303F88),
+                    color = Color(0xFF0B5B3F),
                     fontSize = 15.sp
                 )
             }
@@ -158,7 +161,7 @@ fun ProductListItem(product: Product? = null, defaultMode: Boolean = false) {
         shape = RoundedCornerShape(20.dp),
         elevation = CardDefaults.cardElevation(5.dp),
         modifier = Modifier
-            .background(Color.White)
+            .background(Color.Transparent)
             .fillMaxHeight()
             .width(200.dp)
             .padding(top = 10.dp, end = 20.dp, start = 10.dp)
@@ -195,6 +198,12 @@ fun ProductListItem(product: Product? = null, defaultMode: Boolean = false) {
                     contentScale = ContentScale.Inside
 
                 )
+                Text(
+                    text = product?.name ?: "error",
+                    modifier = Modifier.padding(5.dp,top = 10.dp),
+                    fontSize = 20.sp
+                )
+
 
             }
         }
@@ -241,10 +250,10 @@ fun ImageSlider() {
             Card(
                 Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
+                    .padding(20.dp),
                 elevation = CardDefaults.cardElevation(8.dp)
             ) {
-                androidx.compose.foundation.Image(
+                Image(
                     painter = painterResource(id = imagesDe[page]),
                     contentDescription = null,
                     modifier = Modifier.fillMaxSize()
@@ -252,16 +261,13 @@ fun ImageSlider() {
             }
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
 
-        // ✅ جایگزین Accompanist: ساخت اندیکاتور دستی
         Row(
-            Modifier.padding(8.dp),
             horizontalArrangement = Arrangement.Center
         ) {
             repeat(imagesDe.size) { index ->
                 val color =
-                    if (pagerState.currentPage == index) Color.Black else Color.Gray.copy(alpha = 0.5f)
+                    if (pagerState.currentPage == index) Color(0xFF0B5B3F) else Color.Gray.copy(alpha = 0.5f)
                 Box(
                     modifier = Modifier
                         .size(8.dp)

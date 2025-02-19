@@ -68,6 +68,8 @@ dependencies {
 
     implementation  (libs.google.accompanist.pager)
     implementation (libs.accompanist.pager.indicators)
+    //status bar
+    implementation (libs.accompanist.systemuicontroller)
 
 
 }

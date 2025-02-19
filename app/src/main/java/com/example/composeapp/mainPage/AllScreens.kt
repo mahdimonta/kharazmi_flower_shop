@@ -1,8 +1,11 @@
 package com.example.composeapp.mainPage
 
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +16,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Notifications
@@ -34,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
@@ -150,7 +156,14 @@ fun HomeScreen() {
     var active by remember { mutableStateOf(false) }
     var text by remember { mutableStateOf("") }
 
-    val widthFraction by animateFloatAsState(if (active) 1f else 0.195f)
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+
+
+    val widthFraction by animateDpAsState(
+        targetValue = if (active) screenWidth * 0.75f else 67.dp,
+        animationSpec = tween(durationMillis = 500)
+    )
+
 
 
     Scaffold(
@@ -164,96 +177,116 @@ fun HomeScreen() {
             },
         topBar = {
 
-            Row(
+            Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            )
-            {
-                Card(
+                    .height(70.dp),
+                shape = RoundedCornerShape(bottomEnd = 40.dp, bottomStart = 40.dp),
+                colors = CardDefaults.cardColors(Color(0xFF18AF7C))
+            ) {
+                Row(
                     modifier = Modifier
-                        .fillMaxWidth(0.183f)
-                        .padding(top = 10.dp, start = 20.dp, end = 8.dp),
-                    elevation = CardDefaults.cardElevation(3.dp),
-                    shape = CircleShape,
-                    colors = CardDefaults.cardColors(Color.White)
-                ) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
+                        .fillMaxSize(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                )
+                {
+                    Card(
+                        modifier = Modifier
+                            .size(67.dp)
+                            .padding(top = 10.dp, bottom = 10.dp, start = 20.dp),
+                        elevation = CardDefaults.cardElevation(3.dp),
+                        shape = CircleShape,
+                        colors = CardDefaults.cardColors(Color.White)
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Notifications,
-                            contentDescription = "Notification"
-                        )
-                    }
-                }
-
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth(widthFraction)
-                        .padding(top = 10.dp, end = 20.dp)
-                        .clickable {
-                            active = true
-                        },
-                    elevation = CardDefaults.cardElevation(3.dp),
-                    shape = if (active) CardDefaults.shape else CircleShape,
-                    colors = CardDefaults.cardColors(Color.White)
-                ) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-
-                        if (active) {
-
-                            OutlinedTextField(
-                                value = text,
-                                onValueChange = { text = it },
-                                modifier = Modifier
-                                    .padding(horizontal = 16.dp) // فاصله درون فیلد
-                                    .fillMaxSize(),
-                                singleLine = true,
-                                leadingIcon = {
-                                    Icon(
-                                        imageVector = Icons.Default.Search,
-                                        contentDescription = "Search TextField"
-                                    )
-                                },
-                                trailingIcon = {
-                                    Icon(
-                                        modifier = Modifier.clickable { if(text.isNotEmpty()) text="" else active = false },
-                                        imageVector = Icons.Default.Close,
-                                        contentDescription = "Close TextField"
-                                    )
-                                }
-                            )
-
-
-                        } else {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
                             Icon(
-                                imageVector = Icons.Default.Search,
+                                imageVector = Icons.Default.Notifications,
                                 contentDescription = "Notification"
                             )
                         }
+                    }
 
+                    Card(
+                        modifier = Modifier
+                            .width(widthFraction)
+                            .height(67.dp)
+                            .padding(top = 10.dp, bottom = 10.dp, end = 20.dp)
+                            .clickable(
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = null
+                            ) {
+                                active = true
+                            },
+                        elevation = CardDefaults.cardElevation(3.dp),
+                        shape = if (active) CardDefaults.shape else CircleShape,
+                        colors = CardDefaults.cardColors(Color.White)
+                    ) {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+
+                            if (active) {
+
+                                OutlinedTextField(
+                                    value = text,
+                                    onValueChange = { text = it },
+                                    modifier = Modifier
+                                        .padding(horizontal = 16.dp)
+                                        .fillMaxSize(),
+                                    singleLine = true,
+                                    leadingIcon = {
+                                        Icon(
+                                            imageVector = Icons.Default.Search,
+                                            contentDescription = "Search TextField"
+                                        )
+                                    },
+                                    trailingIcon = {
+                                        Icon(
+                                            modifier = Modifier
+                                                .clickable (
+                                                    interactionSource = remember { MutableInteractionSource() },
+                                                    indication = null
+                                                )
+                                                { if(text.isNotEmpty()) text="" else active = false },
+                                            imageVector = Icons.Default.Close,
+                                            contentDescription = "Close TextField"
+                                        )
+                                    },
+
+                                    )
+
+
+                            } else {
+                                Icon(
+                                    imageVector = Icons.Default.Search,
+                                    contentDescription = "Notification"
+                                )
+                            }
+
+                        }
                     }
                 }
+
             }
 
 
         }
     ) {
-        it.toString()
-        Column {
-            MainHomeListItem("")
+
+        Column(modifier = Modifier.padding(it)) {
             ImageSlider()
+            MainHomeListItem("")
         }
     }
 
 
 }
+
+
 
 
 @Composable
@@ -273,7 +306,7 @@ fun DiscountScreen() {
 @Preview(
     showBackground = true,
     showSystemUi = true,
-    device = Devices.PIXEL_7_PRO
+    device = Devices.PIXEL_7
 )
 @Composable
 fun AllScreenPRE() {
