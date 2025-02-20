@@ -119,7 +119,7 @@ fun BottomNavigation(navController: NavController) {
                         }
                         state = index
                     }
-                    .height(80.dp),
+                    .height(65.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
