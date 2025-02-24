@@ -25,9 +25,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,9 +35,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalMapOf
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -50,16 +47,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composeapp.R
+import com.example.composeapp.dataClasses.dataModel.Category
 import com.example.composeapp.dataClasses.dataModel.Product
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun MainHomeListItem(categoryName: String) {
+fun MainHomeListItem(category: Category? = null) {
 
     Column(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth().padding(top = 20.dp, bottom = 10.dp )
             .height(260.dp)
 
 
@@ -98,12 +96,13 @@ fun MainHomeListItem(categoryName: String) {
             }
             Text(
                 modifier = Modifier.padding(top = 5.dp, end = 13.dp),
-                text = categoryName,
+                text = category?.name ?: "error to receiving name",
                 style = TextStyle(fontSize = 16.sp, color = Color.Black),
                 fontWeight = FontWeight.Bold
             )
         }
-        val list = listOf(
+
+        val list2 = listOf(
             Product(
                 id = 1,
                 name = "gol",
@@ -146,13 +145,15 @@ fun MainHomeListItem(categoryName: String) {
 
 
         )
+
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 10.dp, top = 10.dp),
+            reverseLayout = true,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(list) { item: Product ->
+            items(category?.listOfProduct ?: list2) { item: Product ->
                 ProductListItem(item)
             }
             items(1) {
@@ -175,11 +176,13 @@ fun ProductListItem(product: Product? = null, defaultMode: Boolean = false) {
         Column(
             modifier = Modifier
                 .fillMaxHeight()
-                .width(200.dp)
+                .width(200.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             Image(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .size(90.dp)
                     .padding(10.dp)
                     .clip(RoundedCornerShape(20.dp)),
                 painter = painterResource(id = R.drawable.show_more),
@@ -190,66 +193,41 @@ fun ProductListItem(product: Product? = null, defaultMode: Boolean = false) {
 
         }
     } else {
-//        Card(
-//            shape = RoundedCornerShape(20.dp),
-//            elevation = CardDefaults.cardElevation(5.dp),
-//            modifier = Modifier
-//                .background(Color.Transparent)
-//                .fillMaxHeight()
-//                .width(200.dp)
-//                .padding(top = 10.dp, end = 20.dp, start = 10.dp)
-//        ) {
-//            Column(
-//                modifier = Modifier.fillMaxSize()
-//            ) {
-//                Image(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .fillMaxHeight(0.6f)
-//                        .padding(top = 10.dp, end = 5.dp, start = 5.dp)
-//                        .clip(RoundedCornerShape(20.dp)),
-//                    painter = painterResource(id = R.drawable.show_more),
-//                    contentDescription = product?.name,
-//                    contentScale = ContentScale.Inside
-//
-//                )
-//                Text(
-//                    text = product?.name ?: "error",
-//                    modifier = Modifier.padding(5.dp, top = 10.dp),
-//                    fontSize = 20.sp
-//                )
-//
-//
-//            }
-//        }
-        ElevatedCard(
+        Card(
             shape = RoundedCornerShape(12.dp),
             modifier = Modifier
                 .width(160.dp)
-                .padding(start = 8.dp),
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 3.dp
-            ),
-            colors = CardDefaults.cardColors(Color.White)
+                .padding(start = 5.dp , end = 5.dp)
+                .fillMaxHeight(),
+
+            colors = CardDefaults.cardColors(Color.White),
+            elevation = CardDefaults.cardElevation(1.dp),
         ) {
             Column(
 
-                modifier = Modifier.padding(8.dp).fillMaxSize()
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxSize()
             ) {
 
-                    Image(
-                        painter = painterResource(id = R.drawable.show_more),
-                        contentDescription = "Product Image",
-                        contentScale = ContentScale.FillBounds,
-                        modifier = Modifier.fillMaxWidth().height(110.dp)
-                    )
+                Image(
+                    painter = painterResource(id = R.drawable.show_more),
+                    contentDescription = "Product Image",
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(110.dp)
+                )
 
 
                 Text(
                     text = product?.description ?: "gol 1",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(top = 10.dp).fillMaxWidth().height(50.dp)
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                        .fillMaxWidth()
+                        .height(50.dp)
                 )
                 Text(
                     text = "${product?.price} تومان",
@@ -271,7 +249,7 @@ fun ProductListItem(product: Product? = null, defaultMode: Boolean = false) {
                     Box(
                         modifier = Modifier
                             .background(Color(0xFF18AF7C), shape = RoundedCornerShape(8.dp))
-                            .padding(horizontal = 6.dp, vertical = 2.dp)
+                            .padding(horizontal = 6.dp)
                     ) {
                         Text(
                             text = "${product?.discount}%",
@@ -282,7 +260,7 @@ fun ProductListItem(product: Product? = null, defaultMode: Boolean = false) {
                     }
                 }
             }
-            }
+        }
     }
 
 
@@ -328,7 +306,7 @@ fun ImageSlider() {
                     .fillMaxSize()
                     .padding(20.dp),
                 elevation = CardDefaults.cardElevation(
-                    defaultElevation = 3.dp
+                    defaultElevation = 1.dp
                 ),
                 colors = CardDefaults.cardColors(Color.White)
             ) {
@@ -362,6 +340,45 @@ fun ImageSlider() {
     }
 }
 
+@Composable
+fun RandomProduct(product: Product?=null) {
+
+    Card(
+        shape = RoundedCornerShape(12.dp),
+        modifier = Modifier
+            .width((LocalConfiguration.current.screenWidthDp.dp / 2))
+            .padding(10.dp),
+        colors = CardDefaults.cardColors(Color.White),
+        elevation = CardDefaults.cardElevation(1.dp)
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.show_more),
+                contentDescription = "Product Image",
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier.size(140.dp)
+            )
+
+            Text(
+                text = product?.description?:"dwewdwdwdwdwwdw",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.fillMaxWidth().height(70.dp).padding(top = 10.dp, bottom = 10.dp)
+            )
+            Text(
+                text = "${product?.price?: ""} تومان",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
+        }
+    }
+}
+
+
 @Preview(
     showBackground = true,
     showSystemUi = true,
@@ -370,7 +387,8 @@ fun ImageSlider() {
 @Composable
 fun ListPre() {
     Column {
-        MainHomeListItem("hello")
+        MainHomeListItem()
         ImageSlider()
+        RandomProduct()
     }
 }

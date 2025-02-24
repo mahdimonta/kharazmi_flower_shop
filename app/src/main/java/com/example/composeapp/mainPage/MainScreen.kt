@@ -44,6 +44,7 @@ class MainScreen : ComponentActivity() {
             modifier = Modifier.systemBarsPadding(),
             bottomBar = { BottomNavigation(navController) }
         ) {
+
             NavHost(
                 modifier = Modifier.padding(it),
                 navController = navController,

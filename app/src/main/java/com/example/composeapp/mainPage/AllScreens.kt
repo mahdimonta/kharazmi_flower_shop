@@ -8,8 +8,12 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,6 +21,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -26,6 +35,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -50,6 +60,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.composeapp.R
 import com.example.composeapp.dataClasses.NavigationItem
+import com.example.composeapp.dataClasses.dataModel.Category
+import com.example.composeapp.dataClasses.dataModel.Product
 import com.exyte.animatednavbar.AnimatedNavigationBar
 import com.exyte.animatednavbar.animation.indendshape.shapeCornerRadius
 import com.exyte.animatednavbar.utils.noRippleClickable
@@ -97,7 +109,7 @@ fun BottomNavigation(navController: NavController) {
 
     AnimatedNavigationBar(
         modifier = Modifier
-            .padding(start = 20.dp, end = 20.dp , bottom = 10.dp),
+            .padding(start = 20.dp, end = 20.dp, bottom = 10.dp),
         selectedIndex = state,
         ballColor = Color(0xFF0B5B3F),
         barColor = Color(0xFF18AF7C),
@@ -150,6 +162,7 @@ fun ShopScreen() {
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HomeScreen() {
     val focusManager = LocalFocusManager.current
@@ -247,11 +260,14 @@ fun HomeScreen() {
                                     trailingIcon = {
                                         Icon(
                                             modifier = Modifier
-                                                .clickable (
+                                                .clickable(
                                                     interactionSource = remember { MutableInteractionSource() },
                                                     indication = null
                                                 )
-                                                { if(text.isNotEmpty()) text="" else active = false },
+                                                {
+                                                    if (text.isNotEmpty()) text = "" else active =
+                                                        false
+                                                },
                                             imageVector = Icons.Default.Close,
                                             contentDescription = "Close TextField"
                                         )
@@ -276,17 +292,308 @@ fun HomeScreen() {
 
         }
     ) {
+        val categoryList = listOf(
 
-        Column(modifier = Modifier.padding(it)) {
-            ImageSlider()
-            MainHomeListItem("")
+            Category(
+                id = 1,
+                name = "gols",
+                imageUrl = "",
+                listOfProduct = listOf(
+                    Product(
+                        id = 1,
+                        name = "gol",
+                        description = "ye gol",
+                        price = "1'000'000",
+                        stock = 11,
+                        discountAfterPrice = "900'000",
+                        discount = "10",
+                        category = "gols",
+                        imageUrls = listOf(""),
+                        rating = 5.0,
+                        availability = "mojod"
+                    ),
+                    Product(
+                        id = 1,
+                        name = "gol",
+                        description = "ye gol",
+                        price = "1'000'000",
+                        stock = 11,
+                        discountAfterPrice = "900'000",
+                        discount = "10",
+                        category = "gols",
+                        imageUrls = listOf(""),
+                        rating = 5.0,
+                        availability = "mojod"
+                    ),
+                    Product(
+                        id = 1,
+                        name = "gol",
+                        description = "ye gol",
+                        price = "1'000'000",
+                        discountAfterPrice = "900'000",
+                        discount = "10",
+                        stock = 11,
+                        category = "gols",
+                        imageUrls = listOf(""),
+                        rating = 5.0,
+                        availability = "mojod"
+                    )
+
+                )
+            ),
+            Category(
+                id = 1,
+                name = "gols",
+                imageUrl = "",
+                listOfProduct = listOf(
+                    Product(
+                        id = 1,
+                        name = "gol",
+                        description = "ye gol",
+                        price = "1'000'000",
+                        stock = 11,
+                        discountAfterPrice = "900'000",
+                        discount = "10",
+                        category = "gols",
+                        imageUrls = listOf(""),
+                        rating = 5.0,
+                        availability = "mojod"
+                    ),
+                    Product(
+                        id = 1,
+                        name = "gol",
+                        description = "ye gol",
+                        price = "1'000'000",
+                        stock = 11,
+                        discountAfterPrice = "900'000",
+                        discount = "10",
+                        category = "gols",
+                        imageUrls = listOf(""),
+                        rating = 5.0,
+                        availability = "mojod"
+                    ),
+                    Product(
+                        id = 1,
+                        name = "gol",
+                        description = "ye gol",
+                        price = "1'000'000",
+                        discountAfterPrice = "900'000",
+                        discount = "10",
+                        stock = 11,
+                        category = "gols",
+                        imageUrls = listOf(""),
+                        rating = 5.0,
+                        availability = "mojod"
+                    )
+
+                )
+            ),
+
+            Category(
+                id = 1,
+                name = "gols",
+                imageUrl = "",
+                listOfProduct = listOf(
+                    Product(
+                        id = 1,
+                        name = "gol",
+                        description = "ye gol",
+                        price = "1'000'000",
+                        stock = 11,
+                        discountAfterPrice = "900'000",
+                        discount = "10",
+                        category = "gols",
+                        imageUrls = listOf(""),
+                        rating = 5.0,
+                        availability = "mojod"
+                    ),
+                    Product(
+                        id = 1,
+                        name = "gol",
+                        description = "ye gol",
+                        price = "1'000'000",
+                        stock = 11,
+                        discountAfterPrice = "900'000",
+                        discount = "10",
+                        category = "gols",
+                        imageUrls = listOf(""),
+                        rating = 5.0,
+                        availability = "mojod"
+                    ),
+                    Product(
+                        id = 1,
+                        name = "gol",
+                        description = "ye gol",
+                        price = "1'000'000",
+                        discountAfterPrice = "900'000",
+                        discount = "10",
+                        stock = 11,
+                        category = "gols",
+                        imageUrls = listOf(""),
+                        rating = 5.0,
+                        availability = "mojod"
+                    )
+
+                )
+            ),
+
+            Category(
+                id = 1,
+                name = "gols",
+                imageUrl = "",
+                listOfProduct = listOf(
+                    Product(
+                        id = 1,
+                        name = "gol",
+                        description = "ye gol",
+                        price = "1'000'000",
+                        stock = 11,
+                        discountAfterPrice = "900'000",
+                        discount = "10",
+                        category = "gols",
+                        imageUrls = listOf(""),
+                        rating = 5.0,
+                        availability = "mojod"
+                    ),
+                    Product(
+                        id = 1,
+                        name = "gol",
+                        description = "ye gol",
+                        price = "1'000'000",
+                        stock = 11,
+                        discountAfterPrice = "900'000",
+                        discount = "10",
+                        category = "gols",
+                        imageUrls = listOf(""),
+                        rating = 5.0,
+                        availability = "mojod"
+                    ),
+                    Product(
+                        id = 1,
+                        name = "gol",
+                        description = "ye gol",
+                        price = "1'000'000",
+                        discountAfterPrice = "900'000",
+                        discount = "10",
+                        stock = 11,
+                        category = "gols",
+                        imageUrls = listOf(""),
+                        rating = 5.0,
+                        availability = "mojod"
+                    )
+
+                )
+            )
+
+
+        )
+        val gridList = listOf(
+            Product(
+                id = 1,
+                name = "gol",
+                description = "ye gol",
+                price = "1'000'000",
+                stock = 11,
+                discountAfterPrice = "900'000",
+                discount = "10",
+                category = "gols",
+                imageUrls = listOf(""),
+                rating = 5.0,
+                availability = "mojod"
+            ),
+
+            Product(
+                id = 1,
+                name = "gol",
+                description = "ye gol",
+                price = "1'000'000",
+                stock = 11,
+                discountAfterPrice = "900'000",
+                discount = "10",
+                category = "gols",
+                imageUrls = listOf(""),
+                rating = 5.0,
+                availability = "mojod"
+            ),
+            Product(
+                id = 1,
+                name = "gol",
+                description = "ye gol",
+                price = "1'000'000",
+                stock = 11,
+                discountAfterPrice = "900'000",
+                discount = "10",
+                category = "gols",
+                imageUrls = listOf(""),
+                rating = 5.0,
+                availability = "mojod"
+            ),
+            Product(
+                id = 1,
+                name = "gol",
+                description = "ye gol",
+                price = "1'000'000",
+                stock = 11,
+                discountAfterPrice = "900'000",
+                discount = "10",
+                category = "gols",
+                imageUrls = listOf(""),
+                rating = 5.0,
+                availability = "mojod"
+            ),
+            Product(
+                id = 1,
+                name = "gol",
+                description = "ye gol",
+                price = "1'000'000",
+                discountAfterPrice = "900'000",
+                discount = "10",
+                stock = 11,
+                category = "gols",
+                imageUrls = listOf(""),
+                rating = 5.0,
+                availability = "mojod"
+            )
+
+        )
+
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+        ) {
+            item {
+                ImageSlider() // 📌 اسلایدر بالای صفحه
+            }
+
+            items(categoryList) { item: Category ->
+                MainHomeListItem(item)
+            }
+
+            item {
+                FlowRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    maxItemsInEachRow = 2, // 📌 دو آیتم در هر سطر
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    gridList.forEach { item2: Product ->
+                        Box(
+                            modifier = Modifier
+                                .width((LocalConfiguration.current.screenWidthDp.dp / 2) - 4.dp)
+                        ) {
+                            RandomProduct(item2)
+                        }
+                    }
+                }
+            }
         }
+
+
+
     }
-
-
 }
-
-
 
 
 @Composable
