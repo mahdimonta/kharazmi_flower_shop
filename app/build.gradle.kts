@@ -71,5 +71,13 @@ dependencies {
     //status bar
     implementation (libs.accompanist.systemuicontroller)
 
+    //image string url
+    implementation(libs.coil.compose)
+
+    //button's bottom of phone
+    implementation (libs.accompanist.systemuicontroller.v0301)
+
+
+
 
 }

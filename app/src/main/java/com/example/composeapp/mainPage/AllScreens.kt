@@ -2,18 +2,16 @@ package com.example.composeapp.mainPage
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,22 +20,22 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,21 +45,27 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ModifierInfo
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import coil.compose.rememberAsyncImagePainter
 import com.example.composeapp.R
 import com.example.composeapp.dataClasses.NavigationItem
-import com.example.composeapp.dataClasses.dataModel.Category
+import com.example.composeapp.dataClasses.dataModel.Order
 import com.example.composeapp.dataClasses.dataModel.Product
+import com.example.composeapp.dataClasses.dataModel.ShopBoxItem
+import com.example.composeapp.dataClasses.dataModel.User
 import com.exyte.animatednavbar.AnimatedNavigationBar
 import com.exyte.animatednavbar.animation.indendshape.shapeCornerRadius
 import com.exyte.animatednavbar.utils.noRippleClickable
@@ -150,10 +154,24 @@ fun BottomNavigation(navController: NavController) {
 
 @Composable
 fun ProfileScreen() {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("profile", fontSize = 24.sp)
+
+    val testUser= User(1,"ali","ali@gmail.com","022222222", "wddefef", listOf(
+        Order(1,1, listOf(
+            ShopBoxItem(Product(1,"11","111","1", stock = 1, category = "11", imageUrls = listOf("111","111"), rating = 4.1, availability = "exist"), 22)
+        ),"wdwd","dwdwd","Dwdwdwd","Dwdwdw","wdwdwdw","ewdwdw")
+    ))
+
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        UserInfo(testUser)
+
+
+
+
+
     }
 }
+
 
 @Composable
 fun ShopScreen() {
@@ -162,7 +180,6 @@ fun ShopScreen() {
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HomeScreen() {
     val focusManager = LocalFocusManager.current
@@ -174,8 +191,9 @@ fun HomeScreen() {
 
     val widthFraction by animateDpAsState(
         targetValue = if (active) screenWidth * 0.75f else 67.dp,
-        animationSpec = tween(durationMillis = 500)
+        animationSpec = tween(durationMillis = 400)
     )
+
 
 
 
@@ -194,7 +212,7 @@ fun HomeScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(70.dp),
-                shape = RoundedCornerShape(bottomEnd = 40.dp, bottomStart = 40.dp),
+                shape = RoundedCornerShape(0.dp),
                 colors = CardDefaults.cardColors(Color(0xFF18AF7C))
             ) {
                 Row(
@@ -207,7 +225,6 @@ fun HomeScreen() {
                         modifier = Modifier
                             .size(67.dp)
                             .padding(top = 10.dp, bottom = 10.dp, start = 20.dp),
-                        elevation = CardDefaults.cardElevation(3.dp),
                         shape = CircleShape,
                         colors = CardDefaults.cardColors(Color.White)
                     ) {
@@ -222,6 +239,16 @@ fun HomeScreen() {
                         }
                     }
 
+                    if(!active){
+                        Text(
+                            "flower shop",
+                            color = Color.White,
+                            fontSize = 28.sp,
+                            modifier = Modifier.padding(top = 18.dp),
+                            fontFamily = FontFamily.Serif
+                        )
+                    }
+
                     Card(
                         modifier = Modifier
                             .width(widthFraction)
@@ -233,7 +260,7 @@ fun HomeScreen() {
                             ) {
                                 active = true
                             },
-                        elevation = CardDefaults.cardElevation(3.dp),
+
                         shape = if (active) CardDefaults.shape else CircleShape,
                         colors = CardDefaults.cardColors(Color.White)
                     ) {
@@ -248,7 +275,7 @@ fun HomeScreen() {
                                     value = text,
                                     onValueChange = { text = it },
                                     modifier = Modifier
-                                        .padding(horizontal = 16.dp)
+                                        .clip(RoundedCornerShape(0.dp))
                                         .fillMaxSize(),
                                     singleLine = true,
                                     leadingIcon = {
@@ -272,6 +299,11 @@ fun HomeScreen() {
                                             contentDescription = "Close TextField"
                                         )
                                     },
+                                    colors = OutlinedTextFieldDefaults.colors(
+                                        unfocusedBorderColor = Color.Transparent,
+                                        focusedBorderColor = Color.Transparent
+
+                                    )
 
                                     )
 
@@ -281,315 +313,37 @@ fun HomeScreen() {
                                     imageVector = Icons.Default.Search,
                                     contentDescription = "Notification"
                                 )
+
                             }
 
                         }
                     }
+
+
                 }
 
             }
 
 
         }
-    ) {
-        val categoryList = listOf(
-
-            Category(
-                id = 1,
-                name = "gols",
-                imageUrl = "",
-                listOfProduct = listOf(
-                    Product(
-                        id = 1,
-                        name = "gol",
-                        description = "ye gol",
-                        price = "1'000'000",
-                        stock = 11,
-                        discountAfterPrice = "900'000",
-                        discount = "10",
-                        category = "gols",
-                        imageUrls = listOf(""),
-                        rating = 5.0,
-                        availability = "mojod"
-                    ),
-                    Product(
-                        id = 1,
-                        name = "gol",
-                        description = "ye gol",
-                        price = "1'000'000",
-                        stock = 11,
-                        discountAfterPrice = "900'000",
-                        discount = "10",
-                        category = "gols",
-                        imageUrls = listOf(""),
-                        rating = 5.0,
-                        availability = "mojod"
-                    ),
-                    Product(
-                        id = 1,
-                        name = "gol",
-                        description = "ye gol",
-                        price = "1'000'000",
-                        discountAfterPrice = "900'000",
-                        discount = "10",
-                        stock = 11,
-                        category = "gols",
-                        imageUrls = listOf(""),
-                        rating = 5.0,
-                        availability = "mojod"
-                    )
-
-                )
-            ),
-            Category(
-                id = 1,
-                name = "gols",
-                imageUrl = "",
-                listOfProduct = listOf(
-                    Product(
-                        id = 1,
-                        name = "gol",
-                        description = "ye gol",
-                        price = "1'000'000",
-                        stock = 11,
-                        discountAfterPrice = "900'000",
-                        discount = "10",
-                        category = "gols",
-                        imageUrls = listOf(""),
-                        rating = 5.0,
-                        availability = "mojod"
-                    ),
-                    Product(
-                        id = 1,
-                        name = "gol",
-                        description = "ye gol",
-                        price = "1'000'000",
-                        stock = 11,
-                        discountAfterPrice = "900'000",
-                        discount = "10",
-                        category = "gols",
-                        imageUrls = listOf(""),
-                        rating = 5.0,
-                        availability = "mojod"
-                    ),
-                    Product(
-                        id = 1,
-                        name = "gol",
-                        description = "ye gol",
-                        price = "1'000'000",
-                        discountAfterPrice = "900'000",
-                        discount = "10",
-                        stock = 11,
-                        category = "gols",
-                        imageUrls = listOf(""),
-                        rating = 5.0,
-                        availability = "mojod"
-                    )
-
-                )
-            ),
-
-            Category(
-                id = 1,
-                name = "gols",
-                imageUrl = "",
-                listOfProduct = listOf(
-                    Product(
-                        id = 1,
-                        name = "gol",
-                        description = "ye gol",
-                        price = "1'000'000",
-                        stock = 11,
-                        discountAfterPrice = "900'000",
-                        discount = "10",
-                        category = "gols",
-                        imageUrls = listOf(""),
-                        rating = 5.0,
-                        availability = "mojod"
-                    ),
-                    Product(
-                        id = 1,
-                        name = "gol",
-                        description = "ye gol",
-                        price = "1'000'000",
-                        stock = 11,
-                        discountAfterPrice = "900'000",
-                        discount = "10",
-                        category = "gols",
-                        imageUrls = listOf(""),
-                        rating = 5.0,
-                        availability = "mojod"
-                    ),
-                    Product(
-                        id = 1,
-                        name = "gol",
-                        description = "ye gol",
-                        price = "1'000'000",
-                        discountAfterPrice = "900'000",
-                        discount = "10",
-                        stock = 11,
-                        category = "gols",
-                        imageUrls = listOf(""),
-                        rating = 5.0,
-                        availability = "mojod"
-                    )
-
-                )
-            ),
-
-            Category(
-                id = 1,
-                name = "gols",
-                imageUrl = "",
-                listOfProduct = listOf(
-                    Product(
-                        id = 1,
-                        name = "gol",
-                        description = "ye gol",
-                        price = "1'000'000",
-                        stock = 11,
-                        discountAfterPrice = "900'000",
-                        discount = "10",
-                        category = "gols",
-                        imageUrls = listOf(""),
-                        rating = 5.0,
-                        availability = "mojod"
-                    ),
-                    Product(
-                        id = 1,
-                        name = "gol",
-                        description = "ye gol",
-                        price = "1'000'000",
-                        stock = 11,
-                        discountAfterPrice = "900'000",
-                        discount = "10",
-                        category = "gols",
-                        imageUrls = listOf(""),
-                        rating = 5.0,
-                        availability = "mojod"
-                    ),
-                    Product(
-                        id = 1,
-                        name = "gol",
-                        description = "ye gol",
-                        price = "1'000'000",
-                        discountAfterPrice = "900'000",
-                        discount = "10",
-                        stock = 11,
-                        category = "gols",
-                        imageUrls = listOf(""),
-                        rating = 5.0,
-                        availability = "mojod"
-                    )
-
-                )
-            )
+    ) {it.toString()
 
 
-        )
-        val gridList = listOf(
-            Product(
-                id = 1,
-                name = "gol",
-                description = "ye gol",
-                price = "1'000'000",
-                stock = 11,
-                discountAfterPrice = "900'000",
-                discount = "10",
-                category = "gols",
-                imageUrls = listOf(""),
-                rating = 5.0,
-                availability = "mojod"
-            ),
-
-            Product(
-                id = 1,
-                name = "gol",
-                description = "ye gol",
-                price = "1'000'000",
-                stock = 11,
-                discountAfterPrice = "900'000",
-                discount = "10",
-                category = "gols",
-                imageUrls = listOf(""),
-                rating = 5.0,
-                availability = "mojod"
-            ),
-            Product(
-                id = 1,
-                name = "gol",
-                description = "ye gol",
-                price = "1'000'000",
-                stock = 11,
-                discountAfterPrice = "900'000",
-                discount = "10",
-                category = "gols",
-                imageUrls = listOf(""),
-                rating = 5.0,
-                availability = "mojod"
-            ),
-            Product(
-                id = 1,
-                name = "gol",
-                description = "ye gol",
-                price = "1'000'000",
-                stock = 11,
-                discountAfterPrice = "900'000",
-                discount = "10",
-                category = "gols",
-                imageUrls = listOf(""),
-                rating = 5.0,
-                availability = "mojod"
-            ),
-            Product(
-                id = 1,
-                name = "gol",
-                description = "ye gol",
-                price = "1'000'000",
-                discountAfterPrice = "900'000",
-                discount = "10",
-                stock = 11,
-                category = "gols",
-                imageUrls = listOf(""),
-                rating = 5.0,
-                availability = "mojod"
-            )
-
-        )
-
-
-        LazyColumn(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
+                .background(Color(0xFF18AF7C)),
         ) {
-            item {
-                ImageSlider() // 📌 اسلایدر بالای صفحه
+            Surface(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 74.dp),
+                shape = RoundedCornerShape(topEnd = 40.dp, topStart = 40.dp),
+            ) {
+                HomeInit()
             }
 
-            items(categoryList) { item: Category ->
-                MainHomeListItem(item)
-            }
-
-            item {
-                FlowRow(
-                    modifier = Modifier.fillMaxWidth(),
-                    maxItemsInEachRow = 2, // 📌 دو آیتم در هر سطر
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    gridList.forEach { item2: Product ->
-                        Box(
-                            modifier = Modifier
-                                .width((LocalConfiguration.current.screenWidthDp.dp / 2) - 4.dp)
-                        ) {
-                            RandomProduct(item2)
-                        }
-                    }
-                }
-            }
         }
-
 
 
     }
@@ -600,6 +354,11 @@ fun HomeScreen() {
 fun CategoryScreen() {
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Text("Category", fontSize = 24.sp)
+
+
+
+
+
     }
 }
 
@@ -617,6 +376,5 @@ fun DiscountScreen() {
 )
 @Composable
 fun AllScreenPRE() {
-
-    HomeScreen()
+ProfileScreen()
 }

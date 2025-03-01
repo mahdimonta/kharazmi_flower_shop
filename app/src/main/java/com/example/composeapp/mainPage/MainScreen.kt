@@ -37,6 +37,9 @@ class MainScreen : ComponentActivity() {
 
         LaunchedEffect(Unit) {
             systemUiController.setStatusBarColor(Color(0xFF18AF7C)) // استاتوس بار قرمز میشه
+            systemUiController.setNavigationBarColor(
+                color = Color.Black
+            )//button's bottom of phone
         }
 
 

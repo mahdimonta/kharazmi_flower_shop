@@ -5,6 +5,6 @@ data class User(
     val name: String, // نام کاربر
     val email: String, // ایمیل کاربر
     val phone: String, // شماره تماس
-    val addressList: List<Address>, // لیست آدرس‌های کاربر
+    val addressList: String ,// لیست آدرس‌های کاربر
     val orders: List<Order> // لیست سفارشات کاربر
 )
